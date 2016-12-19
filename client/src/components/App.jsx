@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import FeedbackBox from './FeedbackBox';
+
 class App extends Component {
+  constructor(){
+    super()
+  }
 
   render() {
     return(
-      <p>Hello World</p>
+      <div>
+        <p>Hello World</p>
+        {/* {if role === audience display feedback component} */}
+        <FeedbackBox />
+      </div>
     )
   }
 }
