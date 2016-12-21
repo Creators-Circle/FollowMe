@@ -16,7 +16,6 @@ describe('Reducers', function() { //describe creates a header
     beforeEach(function() {
     // runs before all tests in this block
       testState = [{x: 0,y: 1},{x: 0,y: 2},{x: 0,y: 3},{x: 0,y: 4},{x: 0,y: 5}], testStateLength = testState.length
-      console.log("test folder")
       deepFreeze(testState);
     });
 
