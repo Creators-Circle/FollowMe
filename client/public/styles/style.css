@@ -10,3 +10,7 @@ iframe#presenterSlides.slides {
 iframe#audienceSlides.slides {
   height:90vh;
 }
+
+#updatePulse{
+	cursor: pointer;
+}
