@@ -13,7 +13,7 @@ class PulseBox extends Component {
     var lineData = [
       {
         values: this.props.pulseData, // pass the pulseData coming from redux store
-        strokeWidth: 1 
+        strokeWidth: 1
       }
     ];
 

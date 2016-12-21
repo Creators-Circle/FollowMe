@@ -67,7 +67,7 @@ io.on('connection', function (socket) {
     console.log('updatePulse event: ', action, currTime);
     // Broadcast to presenter (technically also everyone else)
     io.emit('updatedPulse', action, currTime);
-  });  
+  });
 });
 
 // helper function for creating a session
