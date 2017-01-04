@@ -2,7 +2,7 @@
 const userLectures = (state = [], action) => {
   switch (action.type) {
     case 'STORE_USER_LECTURES':
-      return [...state, ...action.lectures];
+      return action.lectures;
     default:
       return state;
   }
