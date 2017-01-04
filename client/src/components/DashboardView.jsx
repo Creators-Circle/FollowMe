@@ -9,6 +9,16 @@ import { Link } from 'react-router';
 
 // view that every user sees after logging in
 class DashboardView extends Component {
+  constructor () {
+    super();
+    this.state = {
+      search: ''
+    };
+  };
+  updateSearch (value) {
+    this.setState({search: value});
+    console.log('dashview', this.state.search);
+  };
 
   render () {
     return (
@@ -16,12 +26,12 @@ class DashboardView extends Component {
         <LogoutButton/>
         <div>
           <NewPresButton/>
-          <Searchbar/>
+          <Searchbar updateSearch={this.updateSearch.bind(this)}/>
           <Link to='/presenter'><button id='presenterButton'>Presenter</button></Link>
           <Link to='/audience'><button id='audienceButton'>Audience</button></Link>
           <UserInfo/>
         </div>
-        <DashMainContent/>
+        <DashMainContent search={this.state.search}/>
         <JoinPresBox/>
       </div>
     );
