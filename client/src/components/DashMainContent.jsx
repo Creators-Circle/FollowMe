@@ -34,7 +34,7 @@ class DashMainContent extends Component {
       return (
         <div>
           <h1>Search Results</h1>
-          <SearchResults />
+          <SearchResults search={this.props.search}/>
         </div>
       );
     }

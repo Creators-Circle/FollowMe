@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // Input to search database for specific presentation
 class Searchbar extends Component {
 
-  search(event) {
+  search (event) {
     this.props.updateSearch(event.target.value);
   }
 
