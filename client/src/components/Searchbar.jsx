@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Input to search database for specific presentation
 class Searchbar extends Component {
 
+  // function to update the searchValue reducer whenever a user types in the searchbar
   search (event) {
-    this.props.updateSearch(event.target.value);
+    this.props.dispatch({
+      type: 'UPDATE_SEARCH_VALUE',
+      value: event.target.value
+    });
   }
 
   render () {
@@ -14,4 +19,10 @@ class Searchbar extends Component {
   };
 };
 
-export default Searchbar;
+const mapStateToProps = (state) => {
+  return {
+    dispatch: state.dispatch
+  };
+};
+
+export default connect(mapStateToProps)(Searchbar);

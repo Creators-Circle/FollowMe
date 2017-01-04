@@ -8,6 +8,7 @@ class SearchResults extends Component {
 
   render () {
     let search = this.props.search;
+    // filter the lectures by the input given by the user
     let searchLectures = this.props.userLectures.filter(lecture => lecture.name.includes(search));
     return (
       <div>
@@ -22,7 +23,8 @@ class SearchResults extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userLectures: state.userLectures
+    userLectures: state.userLectures,
+    search: state.searchValue
   };
 };
 
