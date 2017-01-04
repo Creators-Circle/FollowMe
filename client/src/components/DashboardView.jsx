@@ -16,12 +16,12 @@ class DashboardView extends Component {
         <LogoutButton/>
         <div>
           <NewPresButton/>
-          <Searchbar/>
+          <Searchbar />
           <Link to='/presenter'><button id='presenterButton'>Presenter</button></Link>
           <Link to='/audience'><button id='audienceButton'>Audience</button></Link>
           <UserInfo/>
         </div>
-        <DashMainContent/>
+        <DashMainContent />
         <JoinPresBox/>
       </div>
     );

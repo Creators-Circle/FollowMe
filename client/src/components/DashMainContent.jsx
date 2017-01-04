@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PresPreviews from './PresPreviews';
 import SearchResults from './SearchResults';
 import '../css/Dashboard.css';
+import { connect } from 'react-redux';
 
 // main content panel in the DashboardView
   // by default it renders Recently Presented Slideshows / Recently Viewed Presentations
@@ -19,8 +20,8 @@ class DashMainContent extends Component {
   }
 
   render () {
-    let search = false; // temp variable to be replaced with state value
-    if (!search) {
+    // if the searchbar is empty display the default view, else display the results
+    if (!this.props.search) {
       return (
         <div>
           <div id='recentMenu'>
@@ -32,10 +33,18 @@ class DashMainContent extends Component {
       );
     } else {
       return (
-        <SearchResults />
+        <div>
+          <h1>Search Results</h1>
+          <SearchResults search={this.props.search}/>
+        </div>
       );
     }
   };
 };
 
-export default DashMainContent;
+const mapStateToProps = (state) => {
+  return {
+    search: state.searchValue
+  };
+};
+export default connect(mapStateToProps)(DashMainContent);
