@@ -35,6 +35,19 @@ class QuestionBox extends Component {
     });
   }
 
+  componentDidMount () {
+    let dispatch = this.props.dispatch;
+    let clearQuestions = false;
+    this.socket.on('questionToggle', function () {
+      $('#QuestionBox').fadeToggle('slow');
+      if (clearQuestions) {
+        $('.upvoteDownvote, questionText').remove();
+        dispatch({type: 'CLEAR_QUESTIONS'});
+      }
+    });
+    clearQuestions = !clearQuestions;
+  }
+
   submitQuestion () {
     // dispatch, submission to the db, socket to the presenter
     let socket = this.props.activeLecture.socket;
