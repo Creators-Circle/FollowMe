@@ -74,9 +74,12 @@ module.exports = {
       user_id: click.userId,
       date: click.date
     })
-      .then((data) => {
-        // console.log('successfully inserted');
-      });
+    .then((data) => {
+      return db('user_lectures').where({user_id: click.userId, lecture_id: click.lectureId})
+      .increment('no_of_clicks', 1);
+    }).then((data) => {
+
+    });
   },
   // save a question to the database then return a promise
   saveQuestion: function (question) {
