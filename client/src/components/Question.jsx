@@ -29,9 +29,9 @@ class Question extends Component {
     let buttonText = this.props.questions[this.props.id].upvoted ? 'Downvote' : 'Upvote';
     // console.log('this.props in question', this.props);
     return (
-      <div>
+      <div className='question'>
        <button className='upvoteDownvote' id={this.props.text} onClick={this.toggleUpvote.bind(this)}>{buttonText}</button>
-       <span>{this.props.text}</span>
+       <span className='questionText'>{this.props.text}</span>
      </div>
     );
   };

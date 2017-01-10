@@ -68,7 +68,6 @@ function listSlides() {
   }).then(function(response) {
     var presentation = response.result;
     var length = presentation.slides.length;
-    console.log(`${length} slides:`, presentation.slides)
     // appendPre('The presentation contains ' + length + ' slides:');
     // for (i = 0; i < length; i++) {
     //   var slide = presentation.slides[i];

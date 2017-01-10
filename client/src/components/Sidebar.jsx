@@ -20,7 +20,6 @@ class Sidebar extends Component {
 
     $('#questionToggle').on('click', function () {
       socket.emit('questionToggle');
-      $('#QuestionBox').fadeToggle('slow');
     });
 
     // Toggle in/out 'Thumbs' component
