@@ -18,7 +18,9 @@ class AudienceView extends Component {
 
   componentDidMount () {
     let thumbsDisplayed = false;
-    let dispatch = this.props.dispatch;
+    // thumbsStore is not currently updating how it should be
+    // leaving commented in in case we decide to use it
+    // let dispatch = this.props.dispatch;
     // Socket event listener to trigger fade out
     let socket = this.props.activeLecture.socket;
 
@@ -29,10 +31,13 @@ class AudienceView extends Component {
 
     // open up 'thumbs' box
     socket.on('open thumbs', function (topicId, topic) {
+      console.log('open thumbs tId, t', topicId, topic);
       $('#thumbTopic').text(topic);
       $('#Thumbs').fadeToggle('slow');
-      dispatch({type: 'SET_TOPIC_ID', topicId: topicId});
-      dispatch({type: 'TOGGLE_DISPLAY'});
+      // this is not being used ... curently
+      // dispatch({type: 'SET_TOPIC_ID', topicId: topicId});
+      // this is not being used ... currently
+      // dispatch({type: 'TOGGLE_DISPLAY'});
       thumbsDisplayed = !thumbsDisplayed;
     });
 
@@ -40,7 +45,7 @@ class AudienceView extends Component {
     socket.on('close thumbs', function () {
       if (thumbsDisplayed) {
         $('#Thumbs').fadeToggle('slow');
-        dispatch({type: 'TOGGLE_THUMBS_BOX'});
+        // dispatch({type: 'TOGGLE_DISPLAY'});
       }
       thumbsDisplayed = !thumbsDisplayed;
     });

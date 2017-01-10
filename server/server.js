@@ -232,15 +232,13 @@ app.post('/newRoom', function (req, res) {
     socket.on('submit thumbTopic', (topicId, topic, lectureId) => {
       console.log('topic submit: ', topic);
       nsp.emit('open thumbs', topicId, topic);
-      // RE-ENABLE LINE BELOW WHEN DB IS SETUP
-      // controllers.saveThumb(topicId, topic, lectureId);
+      controllers.saveTopic(topicId, topic, lectureId);
     });
 
     socket.on('thumb clicked', (topicId, userId, thumbChoice) => {
-      console.log('thumb clicked by user ', userId, ': ', thumbChoice);
+      console.log('thumb clicked by user ', userId, ': ', thumbChoice, topicId);
       nsp.emit('thumb clicked', thumbChoice);
-      // RE-ENABLE LINE BELOW WHEN DB IS SETUP
-      // controllers.saveThumbChoice(topicId, userId, thumbChoice);
+      controllers.saveThumbChoice(topicId, userId, thumbChoice);
     });
 
     socket.on('close thumbs', () => {

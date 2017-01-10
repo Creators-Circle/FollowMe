@@ -123,27 +123,24 @@ module.exports = {
   },
   // save a 'thumbs' topic to the database then return a promise
   saveTopic: function (topicId, topic, lectureId) {
-    console.log('saveThumb event fired');
+    console.log('savetopic event fired, topicId, topic, lectureId', topicId, topic, lectureId);
     return db('topics').insert({
       id: topicId,
       lecture_id: lectureId,
       topic: topic
     })
-    .then(() => {
-      console.log('successfully saved thumb entry');
-    });
+    .then(() => { /* console.log('successfully saved topic entry'); */ });
   },
   // save a thumb choice to the database then return a promise
   saveThumbChoice: function (topicId, userId, thumbChoice) {
-    console.log('saveThumb event fired');
+    // translate thumbChoice for DB
+    thumbChoice = thumbChoice === 'up' ? 1 : thumbChoice === 'side' ? 2 : 3;
     return db('thumbs').insert({
-      topicId: topicId,
-      userId: userId,
+      topic_id: topicId,
+      user_id: userId,
       type: thumbChoice
     })
-    .then(() => {
-      console.log('successfully saved user\'s thumb choice');
-    });
+    .then(() => { /* console.log('successfully saved user\'s thumb choice'); */ });
   },
   // function for getting all the lectures connected to the user
   getUserLectures: function (req, res) {

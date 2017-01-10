@@ -37,6 +37,7 @@ class JoinPresBox extends Component {
     // Alert the guest that they aren't allowed to join a given presentation
     socket.on('notAllowed', function () {
       $('#joinBox').append(`<h1>Guests not permitted to join ${lectureId}</h1>`);
+      socket.disconnect();
     });
 
     // Listen for presentation URL response from presenter
