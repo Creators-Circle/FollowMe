@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Question from './Question';
 import $ from 'jquery';
 import uuid from 'uuid/v1';
+import store from '../store.jsx';
 
 class QuestionBox extends Component {
 // This component lets users enter questions; it also displays each individual question component
@@ -35,6 +36,7 @@ class QuestionBox extends Component {
       });
       render();
     });
+    console.log('questions: ', store.getState().questions);
   };
 
   componentDidMount () {
@@ -76,15 +78,15 @@ class QuestionBox extends Component {
   }
 
   render () {
-    // Capture 'this' context
-    let questions = this.props.questions;
+    let questions = store.getState().questions;
+    let displayQuestions = questions.enabled ? 'block' : 'none';
     // Assign an id to the main component div so that it can be targeted on toggle events
     if (this.props.role === 'presenter') {
       return (
         <div id="QuestionBox" style={{display: 'none'}}>
           <input key={1} type="text" id="questionInput"></input>
           <button key={2} id="submitQuestion" onClick={this.submitQuestion.bind(this)}>Submit</button>
-          {Object.keys(questions).sort(function (a, b) {
+          {Object.keys(questions).slice(1).sort(function (a, b) {
             if (questions[a].votes < questions[b].votes) return 1;
             return -1;
           }).map((questionId, i) =>
@@ -94,10 +96,10 @@ class QuestionBox extends Component {
       );
     } else {
       return (
-        <div id="QuestionBox" style={{display: 'none'}}>
+        <div id="QuestionBox" style={{display: displayQuestions}}>
           <input key={1} type="text" id="questionInput"></input>
           <button key={2} id="submitQuestion" onClick={this.submitQuestion.bind(this)}>Submit</button>
-          {Object.keys(questions).map((questionId, i) =>
+          {Object.keys(questions).slice(1).map((questionId, i) =>
             <Question key={i + 3} id={questionId} votes={questions[questionId].votes} text={questions[questionId].questionText}/>
           )}
         </div>

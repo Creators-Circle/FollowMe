@@ -21,6 +21,7 @@ import LogoutButton from './LogoutButton';
 import TitleBar from './TitleBar';
 import QuestionBox from './QuestionBox';
 import PresThumbs from './PresThumbs';
+import store from '../store.jsx';
 
 class PresenterView extends Component {
   constructor () {
@@ -32,14 +33,23 @@ class PresenterView extends Component {
   }
 
   componentDidMount () {
-    let presentationUrl = this.props.activeLecture.embedUrl;
     let socket = this.props.activeLecture.socket;
-    let presentationName = this.props.activeLecture.name;
-    let presentationId = this.props.activeLecture.presentationId;
-    // Listen for audience request for presentation URL
     socket.on('presentationInfoRequest', function () {
+      let lectureState = store.getState();
+      console.log('presentationInfoRequest', store.getState());
+      let presentationUrl = lectureState.activeLecture.embedUrl;
+      let presentationName = lectureState.activeLecture.name;
+      let presentationId = lectureState.activeLecture.presentationId;
+      let questions = lectureState.questions;
+      let thumbs = lectureState.thumbs;
+      let feedbackEnabled = lectureState.feedbackButton.displayed;
+    // Listen for audience request for presentation URL
+      console.log('got a request for info');
       // response with presentation URL
-      socket.emit('presentationInfoResponse', presentationUrl, presentationName, presentationId);
+      socket.emit('presentationInfoResponse',
+        presentationUrl, presentationName, presentationId,
+        questions, thumbs, feedbackEnabled
+        );
     });
 
     socket.on('connected', () => {
@@ -58,6 +68,10 @@ class PresenterView extends Component {
     });
   }
 
+  showStore () {
+    console.log(store.getState());
+  }
+
   render () {
     return (
       <div>
@@ -70,17 +84,11 @@ class PresenterView extends Component {
           <PulseBox startTime={this.date} audience={this.state.audience}/>
           <QuestionBox role={'presenter'}/>
           <PresThumbs/>
+          <button onClick={this.showStore.bind(this)}></button>
         </div>
       </div>
     );
   }
 };
 
-const mapStateToProps = (state) => {
-  return {
-    activeLecture: state.activeLecture,
-    dispatch: state.dispatch
-  };
-};
-
-export default connect(mapStateToProps)(PresenterView);
+export default connect(state => state)(PresenterView);
