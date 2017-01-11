@@ -36,7 +36,7 @@ class AudienceView extends Component {
       <LogoutButton/>
       <div>
         <button onClick={this.showStore.bind(this)}>store</button>
-        <Slides id="audienceSlides" class="slides" role="audience"/>
+        <Slides id="audienceSlides" class="slides" role="audience" title={store.getState().activeLecture.name}/>
         <FeedbackBox />
         <QuestionBox role={'audience'}/>
         <AudThumbs/>
