@@ -25,9 +25,9 @@ describe('thumbsReducer', function() {
 
   describe('SET_TOPIC_ID', function () {
     it('it should change the value of topicId to the provided uuid', function() {
-      assert.deepEqual({topicId: '323242', displayed: false, up: 0, down: 0, side: 0},
+      assert.deepEqual({topicId: '323242', topicName: 'ArgleBargle', displayed: false, up: 0, down: 0, side: 0},
         thumbsReducer(testState,
-        {type: 'SET_TOPIC_ID', topicId: '323242'}));
+        {type: 'SET_TOPIC', topicId: '323242', topicName: 'ArgleBargle'}));
     });
   });
 

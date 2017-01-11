@@ -37,6 +37,7 @@ class PresThumbs extends Component {
     let topic = $('#topic').val();
     let lectureId = this.props.lectureId;
     socket.emit('submit thumbTopic', topicId, topic, lectureId);
+    this.props.dispatch({type: 'SET_TOPIC', topicId: topicId, topicName: topic});
     // add thumb title, remove thumb form
     $('#topicTitle:first-child').append($('#topic').val());
     $('#topic, #setTopic').fadeOut();
@@ -63,7 +64,8 @@ const mapStateToProps = (state) => {
   return {
     thumbs: state.thumbs,
     socket: state.activeLecture.socket,
-    lectureId: state.activeLecture.lectureId
+    lectureId: state.activeLecture.lectureId,
+    dispatch: state.dispatch
   };
 };
 

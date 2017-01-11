@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v1';
 import $ from 'jquery';
-
+import store from '../store.jsx';
 // AudThumbs allows audience members to give feedback when the presenter enables to 'thumbs' poll component.
   // This allows the presenter to see how each audience member feels about a specific topic/question.
 
@@ -13,8 +13,7 @@ class AudThumbs extends Component {
   componentDidMount () {
     let socket = this.props.socket;
     let userId = this.props.userId;
-    let currentTopicId;
-
+    let currentTopicId = store.getState().topicId;
     // render Thumbs box for the given topic when event 'open thumbs' is fired
     socket.on('open thumbs', function (topicId, topic) {
       currentTopicId = topicId;
@@ -35,12 +34,13 @@ class AudThumbs extends Component {
     socket.on('close thumbs', function () {
       if (thumbsDisplayed) $('#Thumbs').fadeOut('fast');
     });
-  }
+  };
 
   render () {
+    let thumbDisplay = store.getState().thumbs.displayed ? 'block' : 'none';
     return (
-      <div id="Thumbs" style={{display: 'none'}}>
-        <h1 id="thumbTopic"></h1>
+      <div id="Thumbs" style={{display: thumbDisplay}}>
+        <h1 id="thumbTopic">{store.getState().thumbs.topicName}</h1>
         <button className='thumbButton' id='up'>Thumbs up!</button>
         <button className='thumbButton' id='side'>Thumbs to the side!</button>
         <button className='thumbButton' id='down'>Thumbs Down!</button>

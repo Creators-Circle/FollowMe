@@ -155,10 +155,11 @@ app.post('/newRoom', function (req, res) {
     });
 
     // Listen for presenter's response with presesntation URL
-    socket.on('presentationInfoResponse', function (presentationUrl, presentationName, presentationId) {
+    socket.on('presentationInfoResponse', function (presentationUrl, presentationName, presentationId, questions, thumbs, feedbackEnabled) {
       // console.log('Lecturer responding with presentationUrl');
       // Send response to audience member
-      nsp.emit('presentationInfoResponse', presentationUrl, presentationName, presentationId);
+      console.log('presentationInfoResponse', presentationUrl, presentationName, presentationId, questions, thumbs, feedbackEnabled);
+      nsp.emit('presentationInfoResponse', presentationUrl, presentationName, presentationId, questions, thumbs, feedbackEnabled);
     });
 
     // Listen for saveLecture event

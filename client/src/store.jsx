@@ -10,6 +10,7 @@ import searchValue from './reducers/searchValue';
 import summary from './reducers/summary';
 import questions from './reducers/questionReducer.jsx';
 import thumbs from './reducers/thumbsReducer.jsx';
+import feedbackButton from './reducers/feedbackButton.jsx';
 // store all reducers in one variable
 const combinedReducers = combineReducers({
   pulseData,
@@ -20,7 +21,8 @@ const combinedReducers = combineReducers({
   searchValue,
   summary,
   questions,
-  thumbs
+  thumbs,
+  feedbackButton
 });
 
 const store = createStore(combinedReducers);

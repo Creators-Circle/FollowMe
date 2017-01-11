@@ -20,10 +20,18 @@ class Sidebar extends Component {
 
     $('#questionToggle').on('click', function () {
       socket.emit('questionToggle');
+      // update the store as well
+      dispatch({
+        type: 'TOGGLE_ENABLED'
+      });
     });
 
     // Toggle in/out 'Thumbs' component
     $('#thumbsToggle').on('click', function () {
+      // update the store as well
+      dispatch({
+        type: 'TOGGLE_DISPLAY_THUMBS'
+      });
     // If thumbs component isn't toggled, then toggle it in
       if (!thumbsToggle) {
         $('#Thumbs').fadeToggle('slow');
@@ -47,6 +55,7 @@ class Sidebar extends Component {
     });
 
     $('#feedbackToggle').on('click', function () {
+      dispatch({type: 'TOGGLE_DISPLAY_FEEDBACK'});
       socket.emit('feedbackToggle');
     });
 

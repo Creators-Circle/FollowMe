@@ -13,6 +13,7 @@ import QuestionBox from './QuestionBox'; // also renders to presenter view
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import AudThumbs from './AudThumbs';
+import store from '../store.jsx';
 
 class AudienceView extends Component {
 
@@ -25,13 +26,18 @@ class AudienceView extends Component {
     });
   }
 
+  showStore () {
+    console.log(store.getState());
+  }
+
   render () {
     return (
       <div id="AudienceView">
       <LogoutButton/>
       <div>
+        <button onClick={this.showStore.bind(this)}>store</button>
         <Slides id="audienceSlides" class="slides" role="audience"/>
-        <FeedbackBox/>
+        <FeedbackBox />
         <QuestionBox role={'audience'}/>
         <AudThumbs/>
       </div>

@@ -1,14 +1,17 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import $ from 'jquery';
+import store from '../store.jsx';
 
 // button for firing an event to update the pulseData inside redux store
 class FeedbackButton extends Component {
 
   render () {
-    // console.log('props in FeedbackButton: ', this.props);
-    return (
+    console.log('store ', store.getState());
+    return store.getState().feedbackButton.displayed ? (
       <button id="updatePulse">Feedback</button>
+    ) : (
+      <button id="updatePulse" style={{display: 'none'}}>Feedback</button>
     );
   }
 
