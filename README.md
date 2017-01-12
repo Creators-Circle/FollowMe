@@ -18,9 +18,8 @@ FollowMe -- Give your teacher the thumb!
 
 FollowMe allows the user to assume one of two roles: Presenter or Audience.
 	Presenter - Start Your Own Presentation:
-		1. At the login page: you will have the choice to login with Github or Google, or proceed as a Guest without logging in. 
-		Login with Google or Github; you cannot present as Guest.
-		2. In the upper left corner, click hte 'New Presentation' button. 
+		1. At the login page: you will have the choice to login with Github or Google, or proceed as a Guest without logging in. Login with Google or Github; you cannot present as Guest.
+		2. In the upper left corner, click the 'New Presentation' button. 
 		3. Select the presentation you wish to give from the 'Select a file' window.
 		4. Near the top of the next page, you will see a six digit alphanumeric 'Join Code.' 
 		5. Send this code to everyone you want to join the audience.
@@ -33,7 +32,7 @@ FollowMe allows the user to assume one of two roles: Presenter or Audience.
 			Pulse: Displays a running tally of the number of times students have clicked the 'Feedback' button. This total falls off over time. 
 			Feedback: Displays a 'Feedback' button for Users to click when having difficulty understanding the material. This button updates the running total under 'Pulse', described above.
 			Permit Guests: Determines whether non-logged in users ('Guests') will be allowed to join the presentation. 
-			Summary: Displays the Questions asked (with authors), result of Thumbs polls, and number of times 
+			Summary: Displays the Questions asked during the lesson, result of Thumbs polls, and number of times each student has clicked the feedback button.
 			Stop Presentation: Ends the presentation, and displays the Summary page. 
 	
 	Audience - View a Presentation:
