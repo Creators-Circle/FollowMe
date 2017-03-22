@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-// Shows title and other info at top of PresenterView
-// Contains
-  // --
+import { ChangeTitle } from '../util/actions';
+
 class TitleBar extends Component {
   constructor () {
     super();
@@ -23,7 +22,7 @@ class TitleBar extends Component {
 
   changeTitle () {
     // update the activeLecture
-    let lecture = {
+    const lecture = {
       lectureId: this.props.activeLecture.lectureId,
       name: this.state.title || 'untitled',
       presentationId: this.props.activeLecture.presentationId,
@@ -31,12 +30,7 @@ class TitleBar extends Component {
       socket: this.props.activeLecture.socket
     };
 
-    this.props.dispatch(
-      {
-        type: 'UPDATE_TITLE',
-        lecture: lecture
-      }
-    );
+    this.props.updateTitle(lecture);
     // send a socket event to the server to update the database
     lecture.socket.emit('updateTitle', lecture.lectureId, lecture.name);
     // hide the textfield
@@ -54,14 +48,14 @@ class TitleBar extends Component {
           !this.state.toggleView
           ? <div className='lecture-title'>
               <h1><span>{this.state.newTitle || this.props.activeLecture.name} </span>
-                <i className="fa fa-pencil" onClick={() => { this.changeView(true); }}></i>
+                <i className='fa fa-pencil' onClick={() => { this.changeView(true); }}></i>
               </h1>
             </div>
           : <div>
             <input className='form-container comment-form title-form ' type='text' defaultValue={this.props.activeLecture.name}
              onChange={this.handleChange.bind(this)}/>
             <div className='title-buttons'>
-              <button className='btn btn-red'onClick={() => { this.changeView(false); }}>Cancel</button>
+              <button className='btn btn-red' onClick={() => { this.changeView(false); }}>Cancel</button>
               <button className='btn btn-green' onClick={this.changeTitle.bind(this)}>Save</button>
             </div>
           </div>
@@ -75,12 +69,20 @@ class TitleBar extends Component {
       </div>
     );
   };
-
 };
+
 const mapStateToProps = (state) => {
   return {
     activeLecture: state.activeLecture
   };
 };
 
-export default connect(mapStateToProps)(TitleBar);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeTitle: (lecture) => {
+      dispatch(ChangeTitle(lecture));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TitleBar);

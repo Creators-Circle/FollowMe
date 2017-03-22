@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import uuid from 'uuid/v1';
 import $ from 'jquery';
+import { ThumbClicked, SetThumbsTopic } from '../util/actions';
+
 import '../css/PresThumbs.css';
 
-// PresThumbs requests feedback from audience members and renders the results of that data.
-  // Audience members are prompted for feedback with the AudThumbs component.
 class PresThumbs extends Component {
 
   componentDidMount () {
-    // retain 'this' context
-    let dispatch = this.props.dispatch;
-    let render = this.forceUpdate.bind(this);
+    const thumbClicked = this.props.thumbClicked;
+    const render = this.forceUpdate.bind(this);
     // socket listener for when an audience member clicks on a thumb
-    this.props.socket.on('thumb clicked', function (thumbChoice) {
+    this.props.socket.on('thumb clicked', (thumbChoice) => {
       // increment the total tally in the store for the thumb chosen
-      dispatch({type: 'THUMB_CLICKED', thumbChoice: thumbChoice});
+      thumbClicked(thumbChoice);
       // trigger a re-render
       render();
     });
 
     // handles enter key being pressed while topic input field is selected
-    $('#topic').keypress(function (e) {
+    $('#topic').keypress((e) => {
       if (e.which === 13) {
         $('#setTopic').click();
         return false;
@@ -30,12 +30,12 @@ class PresThumbs extends Component {
   }
 
   submitTopic () {
-    let socket = this.props.socket;
-    let topicId = uuid();
-    let topic = $('#topic').val();
-    let lectureId = this.props.lectureId;
+    const socket = this.props.socket;
+    const topicId = uuid();
+    const topic = $('#topic').val();
+    const lectureId = this.props.lectureId;
     socket.emit('submit thumbTopic', topicId, topic, lectureId);
-    this.props.dispatch({type: 'SET_TOPIC', topicId: topicId, topicName: topic});
+    this.props.setThumbsTopic(topicId, topic);
     // add thumb title, remove thumb form
     $('#topicTitle:first-child').append($('#topic').val());
     $('#topic, #setTopic').fadeOut();
@@ -74,9 +74,19 @@ const mapStateToProps = (state) => {
   return {
     thumbs: state.thumbs,
     socket: state.activeLecture.socket,
-    lectureId: state.activeLecture.lectureId,
-    dispatch: state.dispatch
+    lectureId: state.activeLecture.lectureId
   };
 };
 
-export default connect(mapStateToProps)(PresThumbs);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    thumbClicked: (thumbChoice) => {
+      dispatch(ThumbClicked(thumbChoice));
+    },
+    setThumbsTopic: (id, name) => {
+      dispatch(SetThumbsTopic(id, name));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PresThumbs);

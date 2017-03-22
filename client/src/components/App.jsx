@@ -67,11 +67,13 @@ Courtesy of http://asciiflow.com/
 */
 
 import React, { Component } from 'react';
-import $ from 'jquery';
-import DashboardView from './DashboardView';
-import getUserData from '../util/getUserData';
 import { connect } from 'react-redux';
+
+import DashboardView from './DashboardView';
 import GuestView from './GuestView';
+
+import { StoreUser } from '../util/actions';
+
 import '../css/Button.css';
 import '../css/Auth.css';
 import '../css/body.css';
@@ -79,16 +81,7 @@ import '../css/body.css';
 // Primary App component.
 class App extends Component {
   componentWillMount () {
-    // store user data when App loads.
-    getUserData((user) => {
-      this.props.dispatch({
-        type: 'STORE_USER',
-        name: user.name,
-        email: user.email,
-        avatar: user.avatar,
-        id: user.id
-      });
-    });
+    this.props.storeUser();
   }
 
   render () {
@@ -105,7 +98,15 @@ class App extends Component {
 };
 
 const mapStateToProps = (state) => {
-  return { dispatch: state.dispatch, user: state.user };
+  return { user: state.user };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    storeUser: () => {
+      dispatch(StoreUser());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

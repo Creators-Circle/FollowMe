@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import PresThumbnail from './PresThumbnail';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-// panel to display search results from querying DB for specific presentation data
-  // Rendered by loginDashboard.
-// Contains
- // PresThumbnail
+import PresThumbnail from './PresThumbnail';
+
 class SearchResults extends Component {
 
   render () {
-    let search = this.props.search.toLowerCase();
+    const search = this.props.search.toLowerCase();
     // filter the lectures by user input
-    let searchLectures = this.props.userLectures.filter(lecture =>
+    const searchLectures = this.props.userLectures.filter(lecture =>
       lecture.name.toLowerCase().includes(search)
     );
     return (

@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import LogoutButton from './LogoutButton';
-import UserInfo from './UserInfo';
-import '../css/Navbar.css';
 import { Link } from 'react-router';
 
-// Holds user info.  Renders on top of most pages.
-// Contains
-  // LogoutButton
-  // UserInfo
+import LogoutButton from './LogoutButton';
+import UserInfo from './UserInfo';
+
+import '../css/Navbar.css';
+
 class Navbar extends Component {
   render () {
     return (
       <div id="NavbarContainer">
         <div id="BrandContainer">
-          <Link to={'/'}><img id="logo" className="navbarElement" src='/../img/logo.png'/><span>FollowMe</span></Link>
+          <Link to={'/'}><img id="logo" className="navbarElement" src='/../img/logo.png'/><span>Pulser</span></Link>
         </div>
         <LogoutButton/>
         <UserInfo/>

@@ -1,5 +1,5 @@
 {
-  "name": "FollowMe",
+  "name": "Pulser",
   "version": "1.0.0",
   "description": "A presentation augmentation app that gives teachers and presenters real-time feedback on the effectiveness of their lecture.",
   "main": "index.js",
@@ -8,19 +8,19 @@
     "build": "node_modules/.bin/webpack  --watch --devtools inline-source-map",
     "start": "nodemon server/server.js ",
     "deploy": "node_modules/.bin/webpack && npm run start",
-    "db_setup": "export DATABASE_URL=$(heroku config:get DATABASE_URL -a present-me-beta)"
+    "db_setup": "export DATABASE_URL=$(heroku config:get DATABASE_URL -a followmebeta)"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Creators-Circle/FollowMe.git"
+    "url": "git+https://github.com/Creators-Circle/Pulser.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Creators-Circle/FollowMe/issues"
+    "url": "https://github.com/Creators-Circle/Pulser/issues"
   },
-  "homepage": "https://github.com/Creators-Circle/FollowMe#readme",
+  "homepage": "https://github.com/Creators-Circle/Pulser#readme",
   "dependencies": {
     "authport-makerpass": "^1.0.0",
     "babel": "5.3.1",
@@ -52,6 +52,7 @@
     "react-redux": "^5.0.1",
     "react-router": "^2.6.1",
     "redux": "^3.6.0",
+    "redux-promise": "^0.5.3",
     "socket.io": "^1.7.2",
     "uuid": "^3.0.1",
     "webpack": "^1.14.0"

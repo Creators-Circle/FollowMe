@@ -1,6 +1,6 @@
 // file for setting all the routes
-let router = require('express').Router();
-let controllers = require('./controllers.js');
+const router = require('express').Router();
+const controllers = require('./controllers.js');
 
 router.get('/user', controllers.getUser);
 router.get('/userLectures', controllers.getUserLectures);

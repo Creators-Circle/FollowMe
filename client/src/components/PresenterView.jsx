@@ -1,27 +1,21 @@
-// Contains the elements for the Presenter, including:
-  // TitleBar
-    //  Is passed date from PresenterView props, lectureId from props, and
-  // Slides
-  // Timer
-  // Menu of yet to be built modules
-  // PulseBox Component
-    // PulseBox is passed a startTime to represent the time at which the presentation is started,
-    // which is assumed to be the time that the PresenterView renders
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
+import store from '../store.jsx';
+
+import LogoutButton from './LogoutButton';
+import Navbar from './Navbar';
+import PresThumbs from './PresThumbs';
 import PulseBox from './PulseBox';
+import QuestionBox from './QuestionBox';
 import Slides from './Slides';
-import $ from 'jquery';
-import '../css/Presentation.css';
 import SummaryView from './SummaryView';
 import Sidebar from './Sidebar';
-import LogoutButton from './LogoutButton';
 import TitleBar from './TitleBar';
-import QuestionBox from './QuestionBox';
-import PresThumbs from './PresThumbs';
-import store from '../store.jsx';
-import Navbar from './Navbar';
+
+import $ from 'jquery';
+
+import '../css/Presentation.css';
 
 class PresenterView extends Component {
   constructor (props) {
@@ -30,19 +24,15 @@ class PresenterView extends Component {
     this.state = {
       audience: 0
     };
-  }
-
-  componentDidMount () {
-    let socket = this.props.activeLecture.socket;
-    socket.on('presentationInfoRequest', function () {
-      let lectureState = store.getState();
-      let presentationUrl = lectureState.activeLecture.embedUrl;
-      let presentationName = lectureState.activeLecture.name;
-      let presentationId = lectureState.activeLecture.presentationId;
-      let questions = lectureState.questions;
-      let thumbs = lectureState.thumbs;
-      let feedbackEnabled = lectureState.feedbackButton.displayed;
-    // Listen for audience request for presentation URL
+    const socket = props.activeLecture.socket;
+    socket.on('presentationInfoRequest', () => {
+      const presentationUrl = props.activeLecture.embedUrl;
+      const presentationName = props.activeLecture.name;
+      const presentationId = props.activeLecture.presentationId;
+      const questions = store.getState().questions;
+      const thumbs = store.getState().thumbs;
+      const feedbackEnabled = store.getState().feedbackButton.displayed;
+      // Listen for audience request for presentation URL
       // response with presentation URL
       socket.emit('presentationInfoResponse',
         presentationUrl, presentationName, presentationId,
@@ -52,7 +42,7 @@ class PresenterView extends Component {
 
     socket.on('connected', () => {
       // Another User has connected
-      // Need to increment the audience store
+      // Need to increment the audience state
       this.setState({audience: ++this.state.audience});
     });
 
@@ -65,19 +55,18 @@ class PresenterView extends Component {
       }
     });
 
-    socket.on('stopPresentation', function () {
+    socket.on('stopPresentation', () => {
       socket.disconnect();
     });
-  };
+  }
 
   render () {
-    // <button onClick={this.showStore.bind(this)}></button>
     return (
       <div className = 'presenter-view-container'>
         <Navbar/>
         <div className='container presentation-view'>
           <div className='row'>
-            <div className='col-md-9 col-lg-9 pulse-row'>
+            <div className='col-md-9 pulse-row'>
                 <PulseBox startTime={this.date} audience={this.state.audience}/>
                 <div id="QuestionBoxPresenter">
                   <QuestionBox role={'presenter'}/>

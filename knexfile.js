@@ -1,5 +1,5 @@
 // Update with your config settings.
-var pg = require('pg');
+const pg = require('pg');
 pg.defaults.ssl = true;
 require('dotenv').config({silent: true});
 

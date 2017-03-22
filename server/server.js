@@ -1,18 +1,18 @@
-var express = require('express');
-var path = require('path');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var bodyParser = require('body-parser');
-var Authport = require('authport');
-var MakerpassService = require('authport-makerpass');
-var session = require('express-session');
+const express = require('express');
+const path = require('path');
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const bodyParser = require('body-parser');
+const Authport = require('authport');
+const MakerpassService = require('authport-makerpass');
+const session = require('express-session');
 require('dotenv').config({silent: true});
-let MP = require('node-makerpass');
-let db = require('./db.js');
-let router = require('./routes.js');
-let controllers = require('./controllers.js');
-let uuid = require('uuid/v1');
+const MP = require('node-makerpass');
+const db = require('./db.js');
+const router = require('./routes.js');
+const controllers = require('./controllers.js');
+const uuid = require('uuid/v1');
 
 // code from the express.static docs
 app.use('/static', express.static(path.join(__dirname, '/../client/public/static')));
@@ -29,8 +29,8 @@ app.use('/api', router);
 Authport.registerService('makerpass', MakerpassService);
 
 // callback urls for MakerPass Authentication
-let localCallbackUrl = 'http://localhost:5000/auth/makerpass/callback';
-let deployedCallbackUrl = 'https://present-me-beta.herokuapp.com/auth/makerpass/callback';
+const localCallbackUrl = 'http://localhost:5000/auth/makerpass/callback';
+const deployedCallbackUrl = 'https://present-me-beta.herokuapp.com/auth/makerpass/callback';
 
 // provide credentials for making an Authport server
 // These references to process.env will look for environment letiables
@@ -44,18 +44,18 @@ Authport.createServer({
   callbackURL: deployedCallbackUrl || localCallbackUrl
 });
 
-let google = Authport.createServer({
+const google = Authport.createServer({
   service: 'google',
   id: process.env.GOOGLE_ID,
   secret: process.env.GOOGLE_SECRET,
   scope: ''
 });
 
-let audienceOnly = false; // switch letiable for whether or not there is a presenter already
+const audienceOnly = false; // switch letiable for whether or not there is a presenter already
 
 // if login is successful, create a session for the user
-Authport.on('auth', function (req, res, data) {
-  let userInfo = {};// temp storage for user information that needs to be passed to contollers.saveUser function
+Authport.on('auth', (req, res, data) => {
+  const userInfo = {};// temp storage for user information that needs to be passed to contollers.saveUser function
   // depending on which login option the user chooses, send them to appropriate service
   switch (data.service) {
     case 'makerpass':
@@ -65,7 +65,7 @@ Authport.on('auth', function (req, res, data) {
       userInfo.email = data.data.user.email;
 
       controllers.saveUser(userInfo)
-      .then(function () {
+      .then(() => {
         createSession(req, res, userInfo.id);
       });
       break;
@@ -77,14 +77,14 @@ Authport.on('auth', function (req, res, data) {
       userInfo.email = 'test@test.mail.com';
 
       controllers.saveUser(userInfo)
-      .then(function (data) {
+      .then((data) => {
         createSession(req, res, userInfo.id);
       });
       break;
   }
 });
 
-Authport.on('error', function (req, res, data) {
+Authport.on('error', (req, res, data) => {
   console.error('Authport Failed');
   res.status(500).send({error: 'failed'});
 });
@@ -93,7 +93,7 @@ app.get('/auth/:service', Authport.app);
 
 // End Auth
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   // check if the user is logged in by checking his session,
   // if no session found redirect to auth crossroads page (google / github)
   if (!req.session.token) {
@@ -104,41 +104,41 @@ app.get('/', function (req, res) {
 });
 
 // A route to handle guest 'logins'
-app.get('/guest', function (req, res) {
+app.get('/guest', (req, res) => {
   // Generate a random 21 character token for the guest and route them back to '/'
-  let guestToken = (Math.random().toString(36) + '00000000000000000').slice(2, 23);
+  const guestToken = (Math.random().toString(36) + '00000000000000000').slice(2, 23);
   // Create an entry in the user table for the guest
-  let userInfo = {};
+  const userInfo = {};
   userInfo.id = guestToken;
   userInfo.name = 'guest';
   userInfo.avatar = 'http://www.doctormacro.com/Images/Chaney%20Jr.,%20Lon/Annex/Annex%20-%20Chaney%20Jr.,%20Lon%20(Wolf%20Man,%20The)_07.jpg';
   userInfo.email = 'guest@guest.com';
   controllers.saveUser(userInfo)
-    .then(function () {
+    .then(() => {
       // Create a session for the guest
       createSession(req, res, guestToken);
     });
 });
 
 // Logout route
-app.get('/logout', function (req, res) {
-  req.session.destroy(function () {
+app.get('/logout', (req, res) => {
+  req.session.destroy(() => {
     res.redirect('/');
   });
 });
 
-// a route to create a new socket namespace
-app.post('/newRoom', function (req, res) {
+// a route to create a new socket namespace (for a presentation)
+app.post('/newRoom', (req, res) => {
   // launch a custom namespace called 'nsp' for the presentation 'room'
-  let nsp = io.of(`/${req.body.room}`);
+  const nsp = io.of(`/${req.body.room}`);
   // ------------------------------------
   // Socket.io listeners / emitters for the presentation 'room'
-  nsp.on('connection', function (socket) {
+  nsp.on('connection', (socket) => {
     // Emits connection message when user connects to specific namespace
     nsp.emit('connected');
 
     // Listen for audience request for presentation URL
-    socket.on('presentationInfoRequest', function (request) {
+    socket.on('presentationInfoRequest', (request) => {
       if (request.name === 'guest') {
         // check if this lecture permits guests
         controllers.checkGuestsPermitted(request.lectureId).then((guestsPermitted) => {
@@ -153,16 +153,16 @@ app.post('/newRoom', function (req, res) {
       }
     });
 
-   // -----Presentation and Lecture Setup Sockets-----
+   // ------------------- SOCKETS FOR 'PRESENTATION AND LECTURE SETUP' -------------------
 
     // Listen for presenter's response with presesntation URL
-    socket.on('presentationInfoResponse', function (presentationUrl, presentationName, presentationId, questions, thumbs, feedbackEnabled) {
+    socket.on('presentationInfoResponse', (presentationUrl, presentationName, presentationId, questions, thumbs, feedbackEnabled) => {
       // Send response to audience member
       nsp.emit('presentationInfoResponse', presentationUrl, presentationName, presentationId, questions, thumbs, feedbackEnabled);
     });
 
     // Listen for saveLecture event
-    socket.on('saveLecture', function (lecture) {
+    socket.on('saveLecture', (lecture) => {
       controllers.saveLecture(lecture);
     });
 
@@ -171,32 +171,32 @@ app.post('/newRoom', function (req, res) {
       controllers.updateLectureTitle(title, lectureId);
     });
 
-//  Guests and Users Sockets
+//  ------------------- SOCKETS FOR 'GUESTS AND USERS' -------------------
 
     // Listen for guestsToggle event
-    socket.on('guestsToggle', function (lecture) {
+    socket.on('guestsToggle', (lecture) => {
       controllers.guestsToggle(lecture);
     });
 
     // Listen for user_lecture event
-    socket.on('userLecture', function (lecture) {
+    socket.on('userLecture', (lecture) => {
       controllers.userLecture(lecture);
     });
 
-//  Sockets for Pulse
+//  ------------------- SOCKETS FOR 'PULSE' -------------------
 
     // Listen for Audience button clicks
-    socket.on('updatePulse', function (action, currTime) {
+    socket.on('updatePulse', (action, currTime) => {
       // console.log('updatePulse event: ', action, currTime);
       // Broadcast to presenter (technically also everyone else)
       nsp.emit('updatedPulse', action, currTime);
     });
     // Listen for user clicks
-    socket.on('userClick', function (action, currTime, name, userId, lectureId) {
+    socket.on('userClick', (action, currTime, name, userId, lectureId) => {
       // console.log('userClick event: ', action, currTime, name, userId, lectureId);
       // Broadcast to presenter (technically also everyone else)
       nsp.emit('userClicked', action, currTime, name);
-      let click = {
+      const click = {
         userId: userId,
         lectureId: lectureId,
         date: currTime
@@ -204,7 +204,7 @@ app.post('/newRoom', function (req, res) {
       controllers.saveClick(click);
     });
 
-//  Sockets for Questions
+//  ------------------- SOCKETS FOR 'QUESTIONS' -------------------
 
     // Listen for toggle events from the presenter and bounce them to the audience
     socket.on('questionToggle', () => {
@@ -257,7 +257,7 @@ app.post('/newRoom', function (req, res) {
       delete io.nsps[`/${req.body.room}`];
     });
 
-    socket.on('disconnect', function (socket) {
+    socket.on('disconnect', (socket) => {
       nsp.emit('disconnected');
     });
   });
@@ -266,8 +266,8 @@ app.post('/newRoom', function (req, res) {
 // --------------------------------------
 
 // helper function for creating a session
-let createSession = function (req, res, id) {
-  return req.session.regenerate(function () {
+const createSession = (req, res, id) => {
+  return req.session.regenerate(() => {
     // set user id as an access token for now, need to refactor later
     req.session.token = createAccessToken();
     req.session.userId = id;
@@ -276,20 +276,20 @@ let createSession = function (req, res, id) {
 };
 
 // creating random alphanumeric 36 character code
-let createAccessToken = function () {
+const createAccessToken = () => {
   return uuid();
 };
 
-// HEROKU OR DOTENV let OR LOCALHOST:5000
+// HEROKU OR DOTENV OR LOCALHOST:5000
 // Check to see if there is a port environment letiable or just use port 5000 instead
 module.exports.NODEPORT = process.env.PORT || 5000;
-let port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
-app.get('*', function (req, res) { // Wildcard route - redirects to landing if loggedin, login page if not logged in.
+app.get('*', (req, res) => { // Wildcard route - redirects to landing if loggedin, login page if not logged in.
   res.redirect('/');
 });
 
 // http server listening to port (HTTP needed for Socket.io)
-http.listen(port, function () {
+http.listen(port, () => {
   console.log('Listening on ' + port);
 });

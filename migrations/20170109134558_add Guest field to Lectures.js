@@ -1,7 +1,7 @@
 
 exports.up = function (knex, Promise) {
   return Promise.all([
-    knex.schema.table('lectures', function (table) {
+    knex.schema.table('lectures', (table) => {
       table.boolean('guest').defaultTo(false);
     })
   ]);
@@ -9,7 +9,7 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
   return Promise.all([
-    knex.schema.table('lectures', function (table) {
+    knex.schema.table('lectures', (table) => {
       table.dropColumn('guest');
     })
   ]);

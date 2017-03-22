@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../css/UserInfo.css';
 
-// component to display basic user data (profile pic + name)
 class UserInfo extends Component {
 
   render () {
@@ -19,8 +18,5 @@ const mapStatetoProps = (state) => {
     user: state.user
   };
 };
-
-// connect(state => state) is a bad practice because it will rerender after every action
-// mapStatetoProps lets you specify specific parts of the state that you want to import
 
 export default connect(mapStatetoProps)(UserInfo);

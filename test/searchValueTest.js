@@ -1,9 +1,12 @@
-// test for searchValue reducer
 const assert = require('assert');
 import search from '../client/src/reducers/searchValue.jsx';
+const deepFreeze = require('deep-freeze');
 
 describe('searchValue', function () {
-  var testState = "search";
+  var testState = "arglebargle";
+  var resultState = "search";
+  deepFreeze(testState);
+
   describe('UNDEFINED ACTION', function(){
     it('should return default state if action is undefined', function () {
       assert.deepEqual(testState, search(testState, {type: 'TEST'}));
@@ -11,7 +14,7 @@ describe('searchValue', function () {
   });
   describe('UPDATE_SEARCH_VALUE', function(){
     it('should update the value of the state ', function () {
-      assert.deepEqual(testState, search('', {type: 'UPDATE_SEARCH_VALUE', value: "search"}));
+      assert.deepEqual(resultState, search(testState, {type: 'UPDATE_SEARCH_VALUE', value: "search"}));
     });
   });
 

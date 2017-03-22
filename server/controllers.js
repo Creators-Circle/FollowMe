@@ -1,20 +1,20 @@
 // js file for accessing the database
 
-let db = require('./db.js');
+const db = require('./db.js');
 
 module.exports = {
   // getting user information from the users table
   getUser: function (req, res) {
     db('users').where('id', req.session.userId)
-      .then(function (data) {
-        let user = data[0];
+      .then((data) => {
+        const user = data[0];
         res.send({name: user.name, avatar: user.avatar, email: user.email, id: user.id});
       });
   },
   //  Checks if a user exists and updates/inserts appropriately
   saveUser: function (user) {
     return db('users').where('id', user.id)
-      .then(function (res) {
+      .then((res) => {
         if (res.length > 0) {
           // if user exists in the database update user info
           return db('users').where('id', user.id).update(user);
@@ -145,7 +145,7 @@ module.exports = {
       lecture_id: lectureId,
       topic: topic
     })
-    .then(() => { /* for knex */ });
+    .then(() => { /* console.log('successfully saved topic entry'); */ });
   },
   // save a thumb choice to the database then return a promise
   saveThumbChoice: function (topicId, userId, thumbChoice) {
@@ -156,84 +156,84 @@ module.exports = {
       user_id: userId,
       type: thumbChoice
     })
-    .then(() => { /* for knex */ });
+    .then(() => { /* console.log('successfully saved user\'s thumb choice'); */ });
   },
   // function for getting all the lectures connected to the user
   getUserLectures: function (req, res) {
-    let user = req.session.userId;
+    const user = req.session.userId;
     db.select('*').from('lectures')
     .join('user_lectures', 'lectures.id', 'user_lectures.lecture_id')
     .where({user_id: user}).orderBy('date', 'desc')
-    .then(function (data) {
+    .then((data) => {
       res.send(data);
     });
   },
   // getting info for Summary View
   getSummary: function (req, res) {
-    let lectureId = req.params.lecture_id;
-    let summary = {};
+    const lectureId = req.params.lecture_id;
+    const summary = {};
     // get all the users connected to the lecture
     db.select('*').from('users')
     .join('user_lectures', 'users.id', 'user_lectures.user_id')
     .where('lecture_id', lectureId)
-    .then(function (users) { summary.users = users; })
-    .then(function () {
+    .then((users) => { summary.users = users; })
+    .then(() => {
       // get all the clicks of the users
       return db.select('*').from('users_clicks').where('lecture_id', lectureId);
     })
-    .then(function (clicks) { summary.clicks = clicks; })
-    .then(function () {
+    .then((clicks) => { summary.clicks = clicks; })
+    .then(() => {
       // get all the questions for the lecture
       return db.select('*').from('questions').where('lecture_id', lectureId);
     })
-    .then(function (questions) { summary.questions = questions; })
-    .then(function () {
+    .then((questions) => { summary.questions = questions; })
+    .then(() => {
       // get all the upvotes
       return db.select('*').from('questions')
       .join('upvotes', 'questions.id', 'upvotes.question_id')
       .where('lecture_id', lectureId);
     })
-    .then(function (upvotes) { summary.upvotes = upvotes; })
-    .then(function () {
+    .then((upvotes) => { summary.upvotes = upvotes; })
+    .then(() => {
       return db.select('*').from('topics').join('thumbs', 'thumbs.topic_id', 'topics.id')
       .where('lecture_id', lectureId);
     })
-    .then(function (thumbs) { summary.thumbs = thumbs; })
-    .then(function () {
+    .then((thumbs) => { summary.thumbs = thumbs; })
+    .then(() => {
       return db.select('*').from('lectures').where('id', lectureId);
     })
-    .then(function (lecture) {
+    .then((lecture) => {
       summary.lecture = lecture;
       res.send(summary);
     });
   },
   // inserting comment in the database
   addComment: function (req, res) {
-    let lectureId = req.params.lecture_id;
-    let userId = req.params.user_id;
-    let comment = req.body.comment;
+    const lectureId = req.params.lecture_id;
+    const userId = req.params.user_id;
+    const comment = req.body.comment;
     return db('user_lectures').where({lecture_id: lectureId, user_id: userId})
     .update({comment: comment})
-    .then(function (data) {
+    .then((data) => {
       res.send('success');
     });
   },
   // fetching a specific comment
   getComment: function (req, res) {
-    let lectureId = req.params.lecture_id;
-    let userId = req.params.user_id;
+    const lectureId = req.params.lecture_id;
+    const userId = req.params.user_id;
     return db.select('*').from('user_lectures')
     .where({lecture_id: lectureId, user_id: userId})
-    .then(function (data) {
+    .then((data) => {
       res.send(data);
     });
   },
   // Checks if a given lecture_id exists.
   lectureCheck: function (req, res) {
-    let lectureId = req.params.lecture_id;
+    const lectureId = req.params.lecture_id;
     return db.select('*').from('lectures').where('id', lectureId)
-    .then(function (data) {
-      res.send(data);
-    });
+      .then((data) => {
+        res.send(data);
+      });
   }
 };

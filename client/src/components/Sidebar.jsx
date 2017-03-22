@@ -1,38 +1,39 @@
-import FeedbackBox from './FeedbackBox';
 import { Link } from 'react-router';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
+
+import FeedbackBox from './FeedbackBox';
 import TitleBar from './TitleBar';
+
+import $ from 'jquery';
+import { ToggleThumbs, ClearThumbsTopic, ToggleFeedback } from '../util/actions';
+import store from '../store';
+
 import '../css/Sidebar.css';
 
-// sidebar menu for presenter to toggle modules and use additional functionality
-// Contains
-  // FeedbackBox
 class Sidebar extends Component {
 
   componentDidMount () {
-    // Capture the this context
-    let socket = this.props.activeLecture.socket;
-    let lectureId = this.props.activeLecture.lectureId;
+    const socket = this.props.activeLecture.socket;
+    const lectureId = this.props.activeLecture.lectureId;
     let thumbsToggle = false; // not sure if this is gonna work???
-    let dispatch = this.props.dispatch;
     let guestsPermitted = false;
-
+    const toggleThumbs = this.props.toggleThumbs;
+    const clearThumbsTopic = this.props.clearThumbsTopic;
+    const toggleFeedback = this.props.toggleFeedback;
+    const stopTimer = this.props.stopTimer;
     // When ComponentToggle is clicked:
-      // ToggleFade the Component out of the PresenterView
-      // And/or emit a ComponentToggle event to tell the AudienceView to toggleFade the Component
+    // ToggleFade the Component out of the PresenterView
+    // And/or emit a ComponentToggle event to tell the AudienceView to toggleFade the Component
 
-    $('#questionToggle').on('click', function () {
+    $('#questionToggle').on('click', () => {
       socket.emit('questionToggle');
     });
 
     // Toggle in/out 'Thumbs' component
-    $('#thumbsToggle').on('click', function () {
+    $('#thumbsToggle').on('click', () => {
       // update the store as well
-      dispatch({
-        type: 'TOGGLE_DISPLAY_THUMBS'
-      });
+      toggleThumbs();
     // If thumbs component isn't toggled, then toggle it in
       if (!thumbsToggle) {
         $('#PresThumbs').fadeToggle('slow');
@@ -42,26 +43,26 @@ class Sidebar extends Component {
         $('#topic').val('');
         $('#topic, #setTopic').fadeIn();
         socket.emit('close thumbs'); // emit event to close all audience thumbs components
-        dispatch({type: 'CLEAR_TOPIC'}); // dispatch action to clear store of thumb data
+        clearThumbsTopic();
       }
       thumbsToggle = !thumbsToggle; // toggle boolean value of thumbsToggle
     });
 
-    $('#timerToggle').on('click', function () {
+    $('#timerToggle').on('click', () => {
       $('.timer').fadeToggle('slow');
     });
 
-    $('#pulseToggle').on('click', function () {
+    $('#pulseToggle').on('click', () => {
       $('#PulseBox').fadeToggle('slow');
     });
 
-    $('#feedbackToggle').on('click', function () {
-      dispatch({type: 'TOGGLE_DISPLAY_FEEDBACK'});
+    $('#feedbackToggle').on('click', () => {
+      toggleFeedback();
       socket.emit('feedbackToggle');
     });
 
-    $('#guestsToggle').on('click', function () {
-      let lecture = {
+    $('#guestsToggle').on('click', () => {
+      const lecture = {
         lectureId: lectureId,
         guestsPermitted: !guestsPermitted
       };
@@ -71,9 +72,9 @@ class Sidebar extends Component {
 
     // Events that end the presentation should alert the audience and server
     $('#stopPresentation, #exit').on('click', () => {
-      this.props.stopTimer();
-      let endTime = new Date();
-      let endLecture = {
+      stopTimer();
+      const endTime = new Date();
+      const endLecture = {
         id: lectureId,
         endTime: endTime
       };
@@ -82,7 +83,7 @@ class Sidebar extends Component {
   }
 
   render () {
-    let embedUrl = this.props.activeLecture.embedUrl;
+    const embedUrl = this.props.activeLecture.embedUrl;
     return (
       <div id="Sidebar">
         <ul>
@@ -111,13 +112,13 @@ class Sidebar extends Component {
           </div>
 
           <div className='row tools-row '>
-            <button id='questionToggle' className='tool-btn btn'><span>Question</span><i className="fa fa-question-circle-o"></i></button>
+            <button id='questionToggle' className='tool-btn btn'><span>Questions</span><i className="fa fa-question-circle-o"></i></button>
             <button id='thumbsToggle' className='tool-btn btn'><span>Thumbs</span><i className="fa fa-thumbs-up"></i></button>
           </div>
 
           <div className='row tools-row '>
             <button id='pulseToggle' className='tool-btn btn'><span>Pulse</span><i className="fa fa-line-chart"></i></button>
-            <button id='feedbackToggle' className='tool-btn btn'><span>Feedback</span><i className="fa fa-exclamation"></i></button>
+            <button id='feedbackToggle' className='tool-btn btn'><span>Not Grok</span><i className="fa fa-exclamation"></i></button>
           </div>
 
           <div className='row tools-row '>
@@ -135,9 +136,22 @@ class Sidebar extends Component {
 
 const mapStatetoProps = (state) => {
   return {
-    activeLecture: state.activeLecture,
-    dispatch: state.dispatch
+    activeLecture: state.activeLecture
   };
 };
 
-export default connect(mapStatetoProps)(Sidebar);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleThumbs: () => {
+      dispatch(ToggleThumbs());
+    },
+    clearThumbsTopic: () => {
+      dispatch(ClearThumbsTopic());
+    },
+    toggleFeedback: () => {
+      dispatch(ToggleFeedback());
+    }
+  };
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(Sidebar);

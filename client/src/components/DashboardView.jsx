@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
+
+import DashMainContent from './DashMainContent';
+import JoinPresBox from './JoinPresBox';
+import Navbar from './Navbar';
 import NewPresButton from './NewPresButton';
 import Searchbar from './Searchbar';
-import JoinPresBox from './JoinPresBox';
-import DashMainContent from './DashMainContent';
-import { Link } from 'react-router';
-import Navbar from './Navbar';
 
-// view that every user sees after logging in
-// Contains
- // Navbar
- // NewPreButton
- // Searchbar
- // JoinPresBox
- // DashMainContent
 class DashboardView extends Component {
 
   render () {

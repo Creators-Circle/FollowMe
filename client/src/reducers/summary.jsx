@@ -3,7 +3,7 @@
 const summary = (state = {}, action) => {
   switch (action.type) {
     case 'UPDATE_SUMMARY':
-      return action.summary;
+      return action.payload;
     default:
       return state;
   }

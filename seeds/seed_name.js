@@ -2,15 +2,15 @@
 exports.seed = function (knex, Promise) {
   // Deletes ALL existing entries
   return knex('users_clicks').del()
-    .then(function () {
+    .then(() => {
       return knex('user_lectures').del()
-      .then(function () {
+      .then(() => {
         return knex('questions').del()
-        .then(function () {
+        .then(() => {
           return knex('users').del()
-          .then(function () {
+          .then(() => {
             return knex('lectures').del()
-            .then(function () {
+            .then(() => {
               return Promise.all([
                 knex('lectures').insert({id: 'cc0001', name: 'sample presentation', presentation_id: 'sample1', preview_image: 'https://www.engageselling.com/blog/wp-content/uploads/2014/12/RefreshBLogDecember2nd.jpg'}),
                 knex('lectures').insert({id: 'cc0002', name: 'sample presentation', presentation_id: 'sample2', preview_image: 'https://blognumbers.files.wordpress.com/2010/09/2.jpg'}),

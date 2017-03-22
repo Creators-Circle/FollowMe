@@ -4,7 +4,7 @@
 const usersClicks = (state = {}, action) => {
   switch (action.type) {
     case 'ADDCLICKTOUSER':
-      if (action.time === undefined || action.user === undefined) {
+      if (action.time === undefined || typeof action.user !== 'string') {
         return state;
       } else if (state[action.user] === undefined) {
         return Object.assign({}, state, {[action.user]: [action.time]});

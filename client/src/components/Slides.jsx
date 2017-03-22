@@ -1,15 +1,16 @@
-// Component to display embedded Goolge Slides presentation
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import $ from 'jquery';
+
 import '../css/Slides.css';
 
 class Slides extends Component {
 
   render () {
-    let embedUrl = this.props.activeLecture.embedUrl;
-    let title = this.props.title || this.props.activeLecture.name;
-    let id = this.props.activeLecture.presentationId;
+    const embedUrl = this.props.activeLecture.embedUrl;
+    const title = this.props.activeLecture.name;
+    const id = this.props.activeLecture.presentationId;
     // return <iframe> with embedded google slides presentation
     // current default presentation is "Effective Pairing and Feedback"
     return (

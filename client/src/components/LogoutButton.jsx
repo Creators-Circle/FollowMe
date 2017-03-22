@@ -1,19 +1,25 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+
 import '../css/LogoutButton.css';
 
-// Logs out.
 class LogoutButton extends Component {
 
   render () {
     return (
-      <input id='LogoutButton' className='btn btn-blue' type="button" onClick={ function () { window.location.href = '/logout'; } } value="Logout" />
+      <input id='LogoutButton' className='btn btn-blue' type="button" value="Logout"
+      onClick={ () => {
+        window.location.href = '/logout';
+      }
+      } />
     );
-  }
+  };
 };
 
 const mapStatetoProps = state => {
-  return {user: state.user};
+  return {
+    user: state.user
+  };
 };
 
 export default connect(mapStatetoProps)(LogoutButton);

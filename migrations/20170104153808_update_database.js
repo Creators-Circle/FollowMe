@@ -4,14 +4,14 @@
 
 exports.up = function (knex, Promise) {
   return Promise.all([
-    knex.schema.table('user_lectures', function (table) {
+    knex.schema.table('user_lectures', (table) => {
       table.string('comment');
       table.integer('no_of_clicks');
     }),
-    knex.schema.table('lectures', function (table) {
+    knex.schema.table('lectures', (table) => {
       table.string('preview_image');
     }),
-    knex.schema.createTable('questions', function (table) {
+    knex.schema.createTable('questions', (table) => {
       table.increments('id').primary();
       table.string('lecture_id').references('id').inTable('lectures');
       table.string('user_id').references('id').inTable('users');
@@ -23,11 +23,11 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
   return Promise.all([
-    knex.schema.table('user_lectures', function (table) {
+    knex.schema.table('user_lectures', (table) => {
       table.dropColumn('comment');
       table.dropColumn('no_of_clicks');
     }),
-    knex.schema.table('lectures', function (table) {
+    knex.schema.table('lectures', (table) => {
       table.dropColumn('preview_image');
     }),
     knex.schema.dropTable('questions')

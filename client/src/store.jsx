@@ -1,5 +1,5 @@
-import { createStore, combineReducers } from 'redux';
-
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import ReduxPromise from 'redux-promise';
 // import reducers here
 import user from './reducers/userReducer';
 import usersClicks from './reducers/usersClicks';
@@ -27,12 +27,6 @@ const combinedReducers = combineReducers({
   picker
 });
 
-const store = createStore(combinedReducers);
+const store = applyMiddleware(ReduxPromise)(createStore)(combinedReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 export default store;
-
-// This code populates the store with test clicks on App load.
-// It can be used to test usersClicks
-// store.dispatch({ type: 'ADDCLICKTOUSER', user: 'duck', time: 1 });
-// store.dispatch({ type: 'ADDCLICKTOUSER', user: 'duck', time: 3 });
-// store.dispatch({ type: 'ADDCLICKTOUSER', user: 'rubber', time: 1 });

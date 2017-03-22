@@ -11,8 +11,8 @@ const LineChart = rd3.LineChart;
 class PulseBox extends Component {
 
   render () {
-    let currTime = new Date();
-    let timeDiff = timeDiffToMinutes(this.props.startTime, currTime);
+    const currTime = new Date();
+    const timeDiff = timeDiffToMinutes(this.props.startTime, currTime);
 
     // compare the time to 1 minute for testing
     // sort values to prevent backwards movement bug
@@ -25,19 +25,19 @@ class PulseBox extends Component {
     }
 
     // set the min and max of x axis with the time value of the first element from filteredPulse
-    let xMin = filteredPulse[0].x;
-    let xMax = filteredPulse[0].x + 1;
-    let audience = this.props.audience > 4 ? this.props.audience : 4;
+    const xMin = filteredPulse[0].x;
+    const xMax = filteredPulse[0].x + 1;
+    const audience = this.props.audience > 4 ? this.props.audience : 4;
     // if the number of clicks reaches 70% of number of audience, display a warning for the presenter
     if (filteredPulse[filteredPulse.length - 1].y > (audience * 0.70)) {
       $('.pulse-box').addClass('alert-red');
-      setTimeout(function () {
+      setTimeout(() => {
         $('.pulse-box').removeClass('alert-red');
       }, 5000);
     }
 
     // need to set lineData prior to return statement to preserve "this" context
-    let lineData = [
+    const lineData = [
       {
         values: filteredPulse,
         strokeWidth: 2
@@ -76,13 +76,13 @@ class PulseBox extends Component {
   // Add Socket.io listener for FeedbackButton increments (and subsequent decrements)
   componentWillMount () {
     // Set keyword this
-    let socket = this.props.activeLecture.socket;
-    let startTime = this.props.startTime;
-    let dispatch = this.props.dispatch;
+    const socket = this.props.activeLecture.socket;
+    const startTime = this.props.startTime;
+    const dispatch = this.props.dispatch;
     // Socket event handler for an audience click that updates the presenter's pulse graph x axis
     socket.on('updatedPulse', (action, currTime) => {
       // compute the time difference and pass it with the action
-      let timeDifference = timeDiffToMinutes(startTime, currTime);
+      const timeDifference = timeDiffToMinutes(startTime, currTime);
       // Dispatch either DECREMENT or INCREMENT action
       dispatch({
         type: action,
@@ -91,7 +91,7 @@ class PulseBox extends Component {
     });
     // Socket event handler for an audience click that updates that audience member's array of clicks in the store
     socket.on('userClicked', (action, currTime, user) => {
-      let timeDifference = timeDiffToMinutes(startTime, currTime);
+      const timeDifference = timeDiffToMinutes(startTime, currTime);
       dispatch({
         type: action,
         time: timeDifference,

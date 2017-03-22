@@ -6,9 +6,6 @@ import getComment from '../util/getComment.js';
 import TotalClicksRow from './TotalClicksRow.jsx';
 import $ from 'jquery';
 
-// table to display total number of clicks per user during the presentation
-// Contains
-  // TotalClicksRow
 class TotalClicksTable extends Component {
   constructor () {
     super();
@@ -31,7 +28,7 @@ class TotalClicksTable extends Component {
 
   upDateComment (id) {
     getComment(this.props.summary.lecture[0].id, id, (data) => {
-      let comment = data[0].comment;
+      const comment = data[0].comment;
       this.setState({comment: comment});
     });
   }

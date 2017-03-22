@@ -1,5 +1,5 @@
 ### Project Name
-FollowMe -- Give your teacher the thumb!
+Pulser -- Give your teacher the thumb!
 
 
 ### Table of Contents
@@ -16,20 +16,18 @@ FollowMe -- Give your teacher the thumb!
 
 ### Usage
 
-FollowMe allows the user to assume one of two roles: Presenter or Audience.
+Pulser allows the user to assume one of two roles: Presenter or Audience.
 	Presenter - Start Your Own Presentation:
 		1. At the login page: you will have the choice to login with Github or Google, or proceed as a Guest without logging in. Login with Google or Github; you cannot present as Guest.
 		2. In the upper left corner, click the 'New Presentation' button. 
-		3. Select the presentation you wish to give from the 'Select a file' window.
+		3. Your Google Slides from your Google Drive will pop up - select the presentation you wish to give.
 		4. Near the top of the next page, you will see a six digit alphanumeric 'Join Code.' 
 		5. Send this code to everyone you want to join the audience.
-		6. Below the join code you will see a minature rendering of your slide deck. You can move through your slide deck normally from this window. 
-		7. Below the slide deck are a series of options for the presenter to enable or disable:
-			Projector: This button opens a new tab with your slide deck at full size. Ideal for simply presenting in front of a class.
-			Question: This enables students to type and submit questions, which are displayed for the presenter and the whole class. Questions can be upvoted or downvoted, and are ranked by 
-			popularity. Note that this component does not display the question's author, but that data exists in the database, and is given to the Presenter 
-			Thumbs: Allows the presenter to submit a topic for vote. Users can vote up, down, or sideways. 
-			Pulse: Displays a running tally of the number of times students have clicked the 'Feedback' button. This total falls off over time. 
+		6. In the side panel there are a series of options for the presenter to enable or disable:
+			Projector: This button opens a new tab with your slide deck at full size. 
+			Questions: This enables students to type and submit questions, which are displayed for the presenter and the whole class. Questions can be upvoted or downvoted, and are ranked by number of upvotes on your view. Note that this component does not display the question's author, but that data exists in the database, and is given to you in the Summary View
+			Thumbs: Allows you to submit a topic for thumbs. Thumbs are intended to get a general feel from the audience. Audience members can vote up, down, or sideways. A running tally of audience thumbs will be displayed
+			Pulse: Displays a running tally of the number of students that have clicked the 'DID NOT GROK' button. This total decrements automatically. 
 			Feedback: Displays a 'Feedback' button for Users to click when having difficulty understanding the material. This button updates the running total under 'Pulse', described above.
 			Permit Guests: Determines whether non-logged in users ('Guests') will be allowed to join the presentation. 
 			Summary: Displays the Questions asked during the lesson, result of Thumbs polls, and number of times each student has clicked the feedback button.
@@ -43,13 +41,14 @@ FollowMe allows the user to assume one of two roles: Presenter or Audience.
 
 ### Requirements
 
-FollowMe uses to following technologies:
+Pulser uses the following technologies:
 
-Node
-Express
-React/Redux
-Knex/PostgresSQL
-
+server: Node w/ Express
+database: Knex/PostgresSQL
+front end JS frameworks: React, Redux, JQuery
+CSS frameworks: Bootstrap
+deployment: Heroku
+Continuous Integration: pre-commit linting and testing hook with Travis
 
 ### Development Requirements
 Heroku CLI required to connect to heroku db from local.
@@ -66,7 +65,7 @@ heroku pg:psql DATABASE_URL --app present-me-beta
 	## Run the Seed File
 	NOTE: THIS OPERATION WIPES THE DATABASE. USE WITH CAUTION. THIS MEANS YOU!!!
 
-	FollowMe comes with dummy data located in the /seeds directory
+	Pulser comes with dummy data located in the /seeds directory
 	To load this data into the database, type:
 	knex seed:run
 
@@ -91,7 +90,7 @@ presentationId:  The ID provided by Google Slides API for slides.
   - __Development Team Members__: Christian Aquino, Ari L. Frankel, Sheel Bedi
 
 ###  Usage and Bugs
-Google presentation must be shareable with an URL.  Set this up in Google Drive.
+Google presentation must be shareable with a URL. Adjust sharing settings for your presentation in your Google Drive.
 
 ### Contributing and Other Documentation
 Database schema at databaseschema.png, located in the root directory of this repo.

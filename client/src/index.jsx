@@ -17,5 +17,4 @@ const render = () => {
   , document.getElementById('app'));
 };
 
-store.subscribe(render);
 render();

@@ -1,28 +1,24 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import $ from 'jquery';
-import store from '../store.jsx';
 
-// button for firing an event to update the pulseData inside redux store
-// Contains
- // --
 class FeedbackButton extends Component {
 
   render () {
-    return store.getState().feedbackButton.displayed ? (
-      <div id="updatePulse"><img id="question" className="navbarElement" src='./img/question.png'/><br/><div id="FeedbackButtonText">DID NOT UNDERSTAND</div></div>
+    return /* store.getState().feedbackButton.displayed */ this.props.feedbackButton.displayed ? (
+      <div id="updatePulse"><img id="question" className="navbarElement" src='./img/question.png'/><br/><div id="FeedbackButtonText">DID NOT GROK</div></div>
     ) : (
-      <div id="updatePulse" style={{display: 'none'}}>><img id="question" className="navbarElement" src='./img/question.png'/><br/><div id="FeedbackButtonText">DID NOT UNDERSTAND</div></div>
+      <div id="updatePulse" style={{display: 'none'}}><img id="question" className="navbarElement" src='./img/question.png'/><br/><div id="FeedbackButtonText">DID NOT GROK</div></div>
     );
   }
 
   componentDidMount () {
     let canIncrement = true;
     let resetCode;
-    let socket = this.props.activeLecture.socket;
-    let name = this.props.user.name;
-    let userId = this.props.user.id;
-    let lectureId = this.props.activeLecture.lectureId;
+    const socket = this.props.activeLecture.socket;
+    const name = this.props.user.name;
+    const userId = this.props.user.id;
+    const lectureId = this.props.activeLecture.lectureId;
     document.getElementById('updatePulse').addEventListener('click', () => {
       // If button has not been clicked in last 30 seconds,
       // then fire "increment" event and queue "decrement" event
@@ -38,17 +34,16 @@ class FeedbackButton extends Component {
     socket.on('feedbackToggle', () => {
       $('#updatePulse').fadeToggle('slow');
     });
-    let decrement = () => {
+    const decrement = () => {
       // In '30' seconds, emit "decrement" event
       // Capture reset code for setTimeout and store in resetCode
-      // bind the this context
-      resetCode = setTimeout(function () {
+      resetCode = setTimeout(() => {
         socket.emit('updatePulse', 'DECREMENT', new Date());
         canIncrement = true;
       }, 5000);
     };
 
-    let resetDecrement = () => {
+    const resetDecrement = () => {
       clearTimeout(resetCode); // use clearTimeout to kill the other setTimeout
       decrement(); // fire another setTimeout instead.
     };
@@ -56,7 +51,11 @@ class FeedbackButton extends Component {
 }
 
 const mapStatetoProps = state => {
-  return {user: state.user, activeLecture: state.activeLecture};
+  return {
+    user: state.user,
+    activeLecture: state.activeLecture,
+    feedbackButton: state.feedbackButton
+  };
 };
 
 export default connect(mapStatetoProps)(FeedbackButton);
