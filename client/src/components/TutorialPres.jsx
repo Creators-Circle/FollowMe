@@ -4,15 +4,14 @@ import { Link } from 'react-router';
 
 import store from '../store.jsx';
 
-import LogoutButton from './LogoutButton';
-import Navbar from './Navbar';
-import PresThumbs from './PresThumbs';
-import PulseBox from './PulseBox';
-import QuestionBox from './QuestionBox';
-import Slides from './Slides';
-import SummaryView from './SummaryView';
-import Sidebar from './Sidebar';
-import TitleBar from './TitleBar';
+import Navbar from './shared/Navbar/Navbar';
+import PresThumbs from './Presenter/PresThumbs';
+import PulseBox from './Presenter/PulseBox';
+import QuestionBox from './shared/Widgets/QuestionBox';
+import Slides from './shared/Widgets/Slides';
+import SummaryView from './Summary/SummaryView';
+import Sidebar from './shared/Widgets/Sidebar';
+import TitleBar from './Presenter/TitleBar';
 
 import rd3 from 'rd3';
 const LineChart = rd3.LineChart;
@@ -318,7 +317,7 @@ class PresenterView extends Component {
 
                 <div className='row tools-row '>
                   <div className='offset-md-1'>
-                    <a target="_blank" href="https://docs.google.com/a/hackreactor.com/presentation/d/1gOaqBF6E_391ooiVkc5u83KIzYzz7l1mrLqtRXjWIvg/present"><button title="open up a separate tab with your slide deck"className='btn tool-btn btn'><span>Projector</span><i className="fa fa-desktop"></i></button></a>
+                    <a target="_blank" href="https://docs.google.com/presentation/d/1g2jNIZ9QEyzXF1LBCrfapoedqa_o03GCsHSaYZyuuEI/pub?start=false&loop=false&delayms=60000"><button title="open up a separate tab with your slide deck"className='btn tool-btn btn'><span>Projector</span><i className="fa fa-desktop"></i></button></a>
                     <button id='timerToggle' title="show/hide the timer and clock" className='tool-btn btn'><span>Timer</span><i className="fa fa-clock-o"></i></button>
                   </div>
                 </div>

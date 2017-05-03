@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 
-import FeedbackBox from './FeedbackBox';
-import JoinPresBox from './JoinPresBox';
-import LogoutButton from './LogoutButton';
-import Navbar from './Navbar';
+import FeedbackBox from './Audience/FeedbackBox';
+import JoinPresBox from './shared/JoinPresBox';
+import Navbar from './shared/Navbar/Navbar';
 
 import '../css/GuestView.css';
 
-class GuestView extends Component {
-
-  render () {
-    return (
+const GuestView = () => (
       <div id="GuestViewBody">
         <Navbar/>
         <div id="GuestJoin">
@@ -22,7 +18,5 @@ class GuestView extends Component {
         </div>
       </div>
     );
-  }
-};
 
 export default GuestView;

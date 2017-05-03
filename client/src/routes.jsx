@@ -1,11 +1,11 @@
 // file for creating routes for specific components
 import { Route, browserHistory, Redirect } from 'react-router';
 import App from './components/App.jsx';
-import AudienceView from './components/AudienceView';
+import AudienceView from './components/Audience/AudienceView';
 import GuestView from './components/GuestView';
-import PresenterView from './components/PresenterView';
-import PresenterViewContainer from './components/PresenterViewContainer';
-import SummaryView from './components/SummaryView';
+import PresenterView from './components/Presenter/PresenterView';
+import PresenterViewContainer from './components/Presenter/PresenterViewContainer';
+import SummaryView from './components/Summary/SummaryView';
 import TutorialPres from './components/TutorialPres';
 
 const routes = (

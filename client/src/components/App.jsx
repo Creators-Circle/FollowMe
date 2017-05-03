@@ -69,7 +69,7 @@ Courtesy of http://asciiflow.com/
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import DashboardView from './DashboardView';
+import DashboardView from './Dashboard/DashboardView';
 import GuestView from './GuestView';
 
 import { StoreUser } from '../util/actions';
@@ -97,8 +97,10 @@ class App extends Component {
   };
 };
 
-const mapStateToProps = (state) => {
-  return { user: state.user };
+const mapStateToProps = ({ user }) => {
+  return {
+    user
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
